@@ -11,14 +11,15 @@ from aurion_api import PersoException
 from flask import Flask, request, render_template
 import json
 
+flaskPort = 5000
+
 app = Flask(__name__)
 
 
 @app.route("/api/ade-esiee/", methods=['GET', 'POST'])
 def get_calendar():
-
     if request.method == 'GET':
-            return render_template("index.html")
+        return render_template("index.html")
 
     username = request.form['username']
     password = request.form['password']
@@ -46,4 +47,5 @@ def get_calendar():
 
 
 if __name__ == "__main__":
-    app.run()
+
+    app.run(host='0.0.0.0', port=flaskPort)

@@ -10,6 +10,7 @@ import urllib.request
 import urllib.error
 import re
 
+
 class ADECalendar():
     """
     ADECalendar class allow to get ESIEE Calendar from https://bde.esiee.fr/api/calendar/activities api
@@ -112,22 +113,27 @@ class ADECalendar():
         :param aurion_data: list of groups provided by aurion_api
         :return: set groups_unites formated as list of dict {'unite' : UNITE, 'groupe': GROUPE}
         '''
-        self.groups_unites =  [{"unite": self.format_unites(self.unites_finder(data)), "groupe": self.groups_finder(data)} for data in
-                aurion_data]
+        self.groups_unites = []
+        for data in aurion_data:
+            groups = self.groups_finder(data)
+            for group in groups:
+                self.groups_unites.append({"unite": self.format_unites(self.unites_finder(data)), "groupe": group})
 
     def groups_finder(self, data):
         '''
 
         :param data: row of aurion provided data
-        :return: group number
+        :return: list of different possible cases of group number
         '''
         back = [m.start() for m in re.finditer("_", data[::-1])]
-        real_group = data[len(data) - back[0]:]
-        if "MSH" in data:
-            return data[len(data) - 3:len(data) - 2] + data[len(data) - 2:].lower()
         if "EIG" in data:
             return data[len(data) - 3:len(data) - 2] + data[len(data) - 2:len(data) - 1].lower() + data[len(data):]
-        return real_group.lower()
+        real_group = data[len(data) - back[0]:]
+        if len(real_group) >= 2:
+            return [real_group, real_group[0].upper() + real_group[1:].lower(),
+                    real_group[0].lower() + real_group[1].upper(), real_group.upper(), real_group.lower()]
+        else:
+            return [real_group, real_group.upper(), real_group.lower()]
 
     def unites_finder(self, data):
         '''
