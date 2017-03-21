@@ -1,7 +1,18 @@
-<form method="POST" action="http://127.0.0.1:5000/api/ade-esiee/">
+<p>
+Calendar :<br>
+    <form method="POST" action="http://127.0.0.1:5000/api/ade-esiee/calendar">
+        <label>Username : <input type="text" name="username"/></label>
+        <label>Password : <input type="password" name="password"/></label>
+        <label>Day : <input type="text" name="day"></label>
+        <label>Month : <input type="text" name="month"></label>
+        <input type="submit">
+    </form>
+</p>
+<p>
+Marks :<br>
+<form method="POST" action="http://127.0.0.1:5000/api/ade-esiee/marks">
     <label>Username : <input type="text" name="username"/></label>
     <label>Password : <input type="password" name="password"/></label>
-    <label>Day : <input type="text" name="day"></label>
-    <label>Month : <input type="text" name="month"></label>
     <input type="submit">
 </form>
+</p>

@@ -16,7 +16,7 @@ flaskPort = 5000
 app = Flask(__name__)
 
 
-@app.route("/api/ade-esiee/", methods=['GET', 'POST'])
+@app.route("/api/ade-esiee/calendar", methods=['GET', 'POST'])
 def get_calendar():
     if request.method == 'GET':
         return render_template("index.html")
@@ -40,6 +40,31 @@ def get_calendar():
         result = ade.get_cours_of(day, month)
 
         value = json.dumps(result)
+        return value
+
+    except PersoException as e:
+        return json.dumps("[{\"error\": \"" + str(e) + "\"}]")
+
+
+@app.route("/api/ade-esiee/marks", methods=['GET', 'POST'])
+def get_marks():
+    if request.method == 'GET':
+        return render_template("index.html")
+
+    username = request.form['username']
+    password = request.form['password']
+
+    if len(username) <= 0 or len(password) <= 0:
+        return json.dumps("[{\"error\": \"Wrong credentials\"}]")
+
+    aurion = Aurion()
+
+    try:
+
+        aurion.connect(username, password)
+        marks = aurion.get_marks()
+        value = json.dumps(marks)
+
         return value
 
     except PersoException as e:
