@@ -8,21 +8,25 @@ Date : 21/03/2017
 from calendar_api import ADECalendar
 from aurion_api import Aurion
 from aurion_api import PersoException
-from flask import Flask, request
+from flask import Flask, request, render_template
 import json
 
 app = Flask(__name__)
 
 
-@app.route("/api/ade-esiee/", methods=['POST'])
+@app.route("/api/ade-esiee/", methods=['GET', 'POST'])
 def get_calendar():
+
+    if request.method == 'GET':
+            return render_template("index.html")
+
     username = request.form['username']
     password = request.form['password']
     month = request.form['month']
     day = request.form['day']
 
     if len(username) <= 0 or len(password) <= 0:
-        return json.dumps("[{\"error\": \"empty password\"}]")
+        return json.dumps("[{\"error\": \"Wrong credentials\"}]")
 
     aurion = Aurion()
     ade = ADECalendar()
@@ -38,7 +42,7 @@ def get_calendar():
         return value
 
     except PersoException as e:
-        return json.dumps("[{\"error\": \""+str(e)+"\"}]")
+        return json.dumps("[{\"error\": \"" + str(e) + "\"}]")
 
 
 if __name__ == "__main__":
