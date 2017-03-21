@@ -26,7 +26,8 @@ An activity is composed of:<br>
 </p>
 <br>
 <p>
-    POST requests arguments are :
+POST requests arguments are :
+<br>
     {username, password, day, month}
 </p>
 <br>
