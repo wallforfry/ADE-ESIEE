@@ -167,12 +167,13 @@ class Aurion():
 
         menu_parser = MenuParser()
         menu_parser.feed(viewstate.text)
-        self.idt = menu_parser.idt[menu_parser.data.index("Mes Groupes")]
+        try:
+            self.idt = menu_parser.idt[menu_parser.data.index("Mes Groupes")]
+        except ValueError:
+            raise PersoException("Mauvais Identifiants")
 
         self.unites_and_groups = self.getGroupsFirstPage(session, viewstate_value) + self.getGroupsSecondPage(session,
                                                                                                               viewstate_value)
-        if len(self.unites_and_groups) == 0:
-            raise PersoException("Mauvais Identifiants")
 
     def getGroupsFirstPage(self, session_requests, viewstate_value):
         """
