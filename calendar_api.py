@@ -131,7 +131,7 @@ class ADECalendar():
         real_group = data[len(data) - back[0]:]
         if len(real_group) >= 2:
             return [real_group, real_group[0].upper() + real_group[1:].lower(),
-                    real_group[0].lower() + real_group[1].upper(), real_group.upper(), real_group.lower()]
+                    real_group[0].lower() + real_group[1:].upper(), real_group.upper(), real_group.lower()]
         else:
             return [real_group, real_group.upper(), real_group.lower()]
 
