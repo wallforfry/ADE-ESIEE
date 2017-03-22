@@ -38,7 +38,8 @@ An activity is composed of:<br>
     "name"       : "String",
     "start"      : "Date",
     "end"        : "Date",
-    "rooms"      : "Room"
+    "rooms"      : "Room",
+    "prof"       : "Name"
   }
   </pre>
 </p>
@@ -71,8 +72,8 @@ A mark is composed of:<br>
   <pre>
   {
     "year"       : "String",
-    "unite"      : "String",
-    "name"       : "String",
+    "unite"      : "Unite Code",
+    "name"       : "Unite natural name",
     "mark"       : "float",
     "coeff"      : "float"
   }

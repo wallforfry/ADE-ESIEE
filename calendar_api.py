@@ -50,7 +50,7 @@ class ADECalendar():
         all = self.get_cours_by_month(all, month)
         all = self.get_cours_by_day(all, day)
 
-        return [{"name": elt['name'], "start": elt['start'], "end": elt['end'], "rooms": elt["rooms"][0]} for elt in
+        return [{"name": elt['name'], "start": elt['start'], "end": elt['end'], "rooms": elt["rooms"][0], "prof": self.prof_finder(elt)} for elt in
                 all]
 
     def is_group(self, description, name, groupe):
@@ -160,3 +160,14 @@ class ADECalendar():
             real_group = data[back[1] + 1:back[4]]
             real_group = real_group.replace("_", "-")
             return real_group
+
+    def prof_finder(self, data):
+        '''
+
+        :param data: row of aurion provided data
+        :return: professors names
+        '''
+        description = data["description"]
+        exp = description.find("(Exported :")-1
+        aurion = description.find("AURION")+len("AURION")+1
+        return description[aurion:exp]

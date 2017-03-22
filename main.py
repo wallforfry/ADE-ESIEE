@@ -74,3 +74,6 @@ def get_marks():
 if __name__ == "__main__":
 
     app.run(host='0.0.0.0', port=flaskPort)
+
+    #row = {"description":"\n1R\n2R\nTE3R21\nAURION\nNADAL F.\n(Exported :21/03/2017 23:00)"}
+    #prof_finder(row)
