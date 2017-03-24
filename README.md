@@ -18,6 +18,7 @@ An activity is composed of:<br>
     The starting time of the activity.
     The ending time of the activity.
     The rooms where the activity take place.
+    The name of the professor.
 </p>
 <br>
 <p>
