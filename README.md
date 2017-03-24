@@ -3,13 +3,14 @@
 <p>
   This is an API to make different things with ESIEE's logins by POST requests:<br>
   <ul>
-    <li>Generate automatically calendar </li>
-    <li>Get marks</li>
-    <li>Get absences</li>
+    <li><a href="#calendar">Generate automatically calendar</a></li>
+    <li><a href="#marks">Get marks</a></li>
+    <li><a href="#absences">Get absences</a></li>
+    <li><a href="#appreciations">Get appreciations</a></li>
   </ul>
 </p>
 
-<h2>Calendar</h2>
+<h2 id="calendar">Calendar</h2>
 <p>
 An activity is composed of:<br>
 
@@ -46,7 +47,7 @@ An activity is composed of:<br>
 </p>
 <br>
 <br>
-<h2>Marks</h2>
+<h2 id="marks">Marks</h2>
 <p>
 A mark is composed of:<br>
 
@@ -82,7 +83,7 @@ A mark is composed of:<br>
 </p>
 <br>
 <br>
-<h2>Absences</h2>
+<h2 id="absences">Absences</h2>
 <p>
 An absence is composed of:<br>
 
@@ -119,6 +120,38 @@ An absence is composed of:<br>
     "type"       : "String",
     "number"     : "String",
     "reason"     : "String"
+  }
+  </pre>
+</p>
+<br>
+<br>
+<h2 id="appreciations">Appreciations</h2>
+<p>
+An appreciation is composed of:<br>
+
+    The year of the appreciation.
+    The period of the appreciation.
+    The text of the appreciation.
+</p>
+<br>
+<p>
+  Typical request is make on /api/ade-esiee/appreciation/ url
+  <br>
+  The POST requests's arguments are :
+  <br>
+  <pre>
+   {
+     username,
+     password
+   }
+   </pre>
+  <br>
+  This result in the following JSON template:
+  <pre>
+  {
+    "year"       : "String",
+    "period"      : "String",
+    "appreciation" : "String"
   }
   </pre>
 </p>

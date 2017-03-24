@@ -238,8 +238,41 @@ class Aurion():
         parser.feed(result.text)
 
         data = parser.data[2:-1]
-        return [{"date": data[i], "hours": data[i + 1], "unite_code": data[i + 2], "name": data[i + 3], "prof": data[i + 4], "type": data[i + 5], "number": data[i + 6], "reason": data[i + 7]}
-                for i in range(11, len(data) - 4, 8)]
+        return [
+            {"date": data[i], "hours": data[i + 1], "unite_code": data[i + 2], "name": data[i + 3], "prof": data[i + 4],
+             "type": data[i + 5], "number": data[i + 6], "reason": data[i + 7]}
+            for i in range(11, len(data) - 4, 8)]
+
+    def get_appreciations(self):
+        """
+        get appreciations
+
+        :param session_requests: requests's session
+        :param viewstate_value: value of hidden filed viewstate
+        :return: return data likes [{"year": YEAR, "period": SEMESTER, "appreciation": APPRECIATION}, ....]
+        """
+
+        idt = self.menu_idt[self.menu_data.index("Mes Appréciations")]
+        url = 'https://webaurion.esiee.fr/faces/ChoixDonnee.xhtml'
+        payload = {"form": "form",
+                   "formlargeurDivCenter": "1691",
+                   "form:headerSubview:j_idt46": "44807",
+                   "form:j_idt168-value": "false",
+                   "javax.faces.ViewState": self.viewstate,
+                   "form:Sidebar:j_idt" + idt: "form:Sidebar:j_idt" + idt
+                   }
+        result = self.session.post(
+            url,
+            headers=dict(referer=url),
+            data=payload
+        )
+
+        parser = DataParser()
+        parser.feed(result.text)
+
+        data = parser.data[2:-1]
+        return [{"year": data[i], "period": data[i + 1], "appreciation": data[i + 2]} for i in
+                range(3, len(data), 3)]
 
     def getGroupsFirstPage(self, session_requests, viewstate_value):
         """

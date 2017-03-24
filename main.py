@@ -96,9 +96,33 @@ def get_absences():
         return json.dumps("[{\"error\": \"" + str(e) + "\"}]")
 
 
-if __name__ == "__main__":
+@app.route("/api/ade-esiee/appreciations", methods=['GET', 'POST'])
+def get_appreciations():
+    if request.method == 'GET':
+        return render_template("index.html")
 
+    username = request.form['username']
+    password = request.form['password']
+
+    if len(username) <= 0 or len(password) <= 0:
+        return json.dumps("[{\"error\": \"Wrong credentials\"}]")
+
+    aurion = Aurion()
+
+    try:
+
+        aurion.connect(username, password)
+        appreciations = aurion.get_appreciations()
+        value = json.dumps(appreciations)
+
+        return value
+
+    except PersoException as e:
+        return json.dumps("[{\"error\": \"" + str(e) + "\"}]")
+
+
+if __name__ == "__main__":
     app.run(host='0.0.0.0', port=flaskPort)
 
-    #row = {"description":"\n1R\n2R\nTE3R21\nAURION\nNADAL F.\n(Exported :21/03/2017 23:00)"}
-    #prof_finder(row)
+    # row = {"description":"\n1R\n2R\nTE3R21\nAURION\nNADAL F.\n(Exported :21/03/2017 23:00)"}
+    # prof_finder(row)
