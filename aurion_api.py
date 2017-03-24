@@ -208,7 +208,7 @@ class Aurion():
 
         data = parser.data[2:-1]
         return [{"year": data[i], "unite": data[i + 1], "name": data[i + 2], "mark": data[i + 3], "coeff": data[i + 4]}
-                for i in range(0, len(data) - 4)]
+                for i in range(0, len(data) - 4, 5)]
 
     def getGroupsFirstPage(self, session_requests, viewstate_value):
         """
