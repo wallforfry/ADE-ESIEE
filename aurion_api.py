@@ -210,6 +210,37 @@ class Aurion():
         return [{"year": data[i], "unite": data[i + 1], "name": data[i + 2], "mark": data[i + 3], "coeff": data[i + 4]}
                 for i in range(0, len(data) - 4, 5)]
 
+    def get_absences(self):
+        """
+        get absences
+
+        :param session_requests: requests's session
+        :param viewstate_value: value of hidden filed viewstate
+        :return: return data likes [{"date": DATE, "hours": START-END, "unite_code": UNITE_CODE, "name": UNITE_NAME, "prof": professor's name, "type": TYPE_OF_COURSE, "number": NUMBER_OF_HOURS_MISSING, "reason": MOTIF}, ....]
+        """
+
+        idt = self.menu_idt[self.menu_data.index("Mes Absences")]
+        url = 'https://webaurion.esiee.fr/faces/ChoixDonnee.xhtml'
+        payload = {"form": "form",
+                   "formlargeurDivCenter": "1691",
+                   "form:headerSubview:j_idt46": "44807",
+                   "form:j_idt168-value": "false",
+                   "javax.faces.ViewState": self.viewstate,
+                   "form:Sidebar:j_idt" + idt: "form:Sidebar:j_idt" + idt
+                   }
+        result = self.session.post(
+            url,
+            headers=dict(referer=url),
+            data=payload
+        )
+
+        parser = DataParser()
+        parser.feed(result.text)
+
+        data = parser.data[2:-1]
+        return [{"date": data[i], "hours": data[i + 1], "unite_code": data[i + 2], "name": data[i + 3], "prof": data[i + 4], "type": data[i + 5], "number": data[i + 6], "reason": data[i + 7]}
+                for i in range(11, len(data) - 4, 8)]
+
     def getGroupsFirstPage(self, session_requests, viewstate_value):
         """
         Get first page of groups

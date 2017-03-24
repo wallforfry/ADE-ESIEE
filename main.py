@@ -71,6 +71,31 @@ def get_marks():
         return json.dumps("[{\"error\": \"" + str(e) + "\"}]")
 
 
+@app.route("/api/ade-esiee/absences", methods=['GET', 'POST'])
+def get_absences():
+    if request.method == 'GET':
+        return render_template("index.html")
+
+    username = request.form['username']
+    password = request.form['password']
+
+    if len(username) <= 0 or len(password) <= 0:
+        return json.dumps("[{\"error\": \"Wrong credentials\"}]")
+
+    aurion = Aurion()
+
+    try:
+
+        aurion.connect(username, password)
+        absences = aurion.get_absences()
+        value = json.dumps(absences)
+
+        return value
+
+    except PersoException as e:
+        return json.dumps("[{\"error\": \"" + str(e) + "\"}]")
+
+
 if __name__ == "__main__":
 
     app.run(host='0.0.0.0', port=flaskPort)
