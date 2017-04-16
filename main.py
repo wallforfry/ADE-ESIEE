@@ -37,7 +37,12 @@ def get_calendar():
         aurion.connect(username, password)
         myCours = aurion.get_unites_and_groups()
         ade.set_groups_unites(myCours)
-        result = ade.get_cours_of(day, month)
+
+        result = ade.get_all_cours()
+        if len(month) > 0:
+            result = ade.get_cours_by_month(result, month)
+            if len(day) > 0:
+                result = ade.get_cours_of(day, month)
 
         value = json.dumps(result)
         return value

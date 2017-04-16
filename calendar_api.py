@@ -39,18 +39,30 @@ class ADECalendar():
         self.all_cours = [elt for elt in result]
 
     def get_cours_of(self, day, month):
-        '''
+        """
         Main method
         :param day: day
         :param month: month
         :return: cours of day and month
-        '''
+        """
         data = self.all_cours
         all = self.get_cours_by_unites_and_groups(data, self.groups_unites)
         all = self.get_cours_by_month(all, month)
         all = self.get_cours_by_day(all, day)
 
         return [{"name": elt['name'], "start": elt['start'], "end": elt['end'], "rooms": elt["rooms"][0], "prof": self.prof_finder(elt)} for elt in
+                all]
+
+    def get_all_cours(self):
+        """
+        Method to get all cours
+        :return: all cours
+        """
+        data = self.all_cours
+        all = self.get_cours_by_unites_and_groups(data, self.groups_unites)
+
+        return [{"name": elt['name'], "start": elt['start'], "end": elt['end'], "rooms": elt["rooms"][0],
+                 "prof": self.prof_finder(elt)} for elt in
                 all]
 
     def is_group(self, description, name, groupe):
