@@ -170,9 +170,10 @@ class Aurion():
         try:
             self.menu_data = menu_parser.data
             self.menu_idt = menu_parser.idt
-
+            if menu_parser.data == []:
+                raise PersoException("Wrong credentials")
         except ValueError:
-            raise PersoException("Mauvais Identifiants")
+            raise PersoException("Wrong credentials")
 
     def get_unites_and_groups(self):
         return self.getGroupsFirstPage(self.session, self.viewstate) + self.getGroupsSecondPage(

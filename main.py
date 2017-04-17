@@ -27,7 +27,7 @@ def get_calendar():
     day = request.form['day']
 
     if len(username) <= 0 or len(password) <= 0:
-        return json.dumps("[{\"error\": \"Wrong credentials\"}]")
+        return "[{\"error\": \"Wrong credentials\"}]"
 
     aurion = Aurion()
     ade = ADECalendar()
@@ -48,7 +48,7 @@ def get_calendar():
         return value
 
     except PersoException as e:
-        return json.dumps("[{\"error\": \"" + str(e) + "\"}]")
+        return "[{\"error\": \"" + str(e) + "\"}]"
 
 
 @app.route("/api/ade-esiee/marks", methods=['GET', 'POST'])
@@ -60,7 +60,7 @@ def get_marks():
     password = request.form['password']
 
     if len(username) <= 0 or len(password) <= 0:
-        return json.dumps("[{\"error\": \"Wrong credentials\"}]")
+        return "[{\"error\": \"Wrong credentials\"}]"
 
     aurion = Aurion()
 
@@ -73,7 +73,7 @@ def get_marks():
         return value
 
     except PersoException as e:
-        return json.dumps("[{\"error\": \"" + str(e) + "\"}]")
+        return "[{\"error\": \"" + str(e) + "\"}]"
 
 
 @app.route("/api/ade-esiee/absences", methods=['GET', 'POST'])
@@ -85,7 +85,7 @@ def get_absences():
     password = request.form['password']
 
     if len(username) <= 0 or len(password) <= 0:
-        return json.dumps("[{\"error\": \"Wrong credentials\"}]")
+        return "[{\"error\": \"Wrong credentials\"}]"
 
     aurion = Aurion()
 
@@ -98,7 +98,7 @@ def get_absences():
         return value
 
     except PersoException as e:
-        return json.dumps("[{\"error\": \"" + str(e) + "\"}]")
+        return "[{\"error\": \"" + str(e) + "\"}]"
 
 
 @app.route("/api/ade-esiee/appreciations", methods=['GET', 'POST'])
@@ -110,7 +110,7 @@ def get_appreciations():
     password = request.form['password']
 
     if len(username) <= 0 or len(password) <= 0:
-        return json.dumps("[{\"error\": \"Wrong credentials\"}]")
+        return "[{\"error\": \"Wrong credentials\"}]"
 
     aurion = Aurion()
 
@@ -123,7 +123,7 @@ def get_appreciations():
         return value
 
     except PersoException as e:
-        return json.dumps("[{\"error\": \"" + str(e) + "\"}]")
+        return "[{\"error\": \"" + str(e) + "\"}]"
 
 
 if __name__ == "__main__":
