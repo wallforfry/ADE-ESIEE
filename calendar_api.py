@@ -32,11 +32,10 @@ class ADECalendar():
             html_data = urllib.request.urlopen(url)
             data = html_data.read().decode('utf8')
             result = json.loads(data)
+            self.all_cours = [elt for elt in result]
 
         except urllib.error.URLError as e:
             print(e)
-
-        self.all_cours = [elt for elt in result]
 
     def get_cours_of(self, day, month):
         """
