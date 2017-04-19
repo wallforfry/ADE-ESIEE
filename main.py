@@ -16,6 +16,52 @@ flaskPort = 5000
 app = Flask(__name__)
 
 
+@app.route("/api/ade-esiee/groups", methods=['GET', 'POST'])
+def get_groups():
+    if request.method == 'GET':
+        return render_template("index.html")
+
+    username = request.form['username']
+    password = request.form['password']
+
+    if len(username) <= 0 or len(password) <= 0:
+        return "[{\"error\": \"Wrong credentials\"}]"
+
+    aurion = Aurion()
+
+    try:
+
+        aurion.connect(username, password)
+        myCours = aurion.get_unites_and_groups()
+
+        value = json.dumps(myCours)
+        return value
+
+    except PersoException as e:
+        return "[{\"error\": \"" + str(e) + "\"}]"
+
+
+@app.route("/api/ade-esiee/agenda", methods=['GET', 'POST'])
+def get_agenda():
+    if request.method == 'GET':
+        return render_template("index.html")
+
+    groups = request.form['groups']
+    mycours = json.loads(groups)
+
+    ade = ADECalendar()
+
+    try:
+        ade.set_groups_unites(mycours)
+
+        result = ade.get_all_cours()
+        value = json.dumps(result)
+        return value
+
+    except PersoException as e:
+        return "[{\"error\": \"" + str(e) + "\"}]"
+
+
 @app.route("/api/ade-esiee/calendar", methods=['GET', 'POST'])
 def get_calendar():
     if request.method == 'GET':
