@@ -1,5 +1,14 @@
 <h1>ADE-ESIEE</h1>
 
+<h2>Run with Docker</h2>
+<p>
+    1) Run `docker build -t python3/ade-esiee .`
+    <br>
+    2) Run `docker run -d -p 5000:5000 --name ade-esiee python3/ade-esiee`
+    <br><br>
+    After that yo can use standard docker command 
+</p>
+<h1>Informations</h1>
 <p>
   This is an API to make different things with ESIEE's logins by POST requests:<br>
   <ul>
