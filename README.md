@@ -4,8 +4,9 @@
 <p>
     1) Run `docker build -t python3/ade-esiee .`
     <br>
-    2) Run `docker run -d -p 5000:5000 --name ade-esiee python3/ade-esiee`
+    2) Run `docker run -d -p 5000:5000 -v $(pwd):/src --name ade-esiee python3/ade-esiee`
     <br><br>
+    To reload sources files after edition just do `docker restart ade-esiee`<br><br>
     After that yo can use standard docker command 
 </p>
 <h1>Informations</h1>
