@@ -163,6 +163,10 @@ class ADECalendar():
         :return: unite name formatted likes unite name in calendar api
         '''
         back = [m.start() for m in re.finditer("_", data)]
+        if len(back) == 3:  # 16_E4FR_RE4R23_2R
+            real_group = data[back[1] + 1:back[2]]
+            real_group = real_group.replace("_", "-")
+            return real_group
         if len(back) == 4:  # 16_E2_IGE_2102_2
             real_group = data[back[1] + 1:back[3]]
             real_group = real_group.replace("_", "-")

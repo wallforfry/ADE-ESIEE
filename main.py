@@ -173,6 +173,10 @@ def get_appreciations():
 
 
 if __name__ == "__main__":
+    #ade = ADECalendar()
+    #ade.set_groups_unites(["16_E4FR_RE4R23_2R"])
+    #result = ade.get_all_cours()
+    #print(result)
     app.run(host='0.0.0.0', port=flaskPort)
 
     # row = {"description":"\n1R\n2R\nTE3R21\nAURION\nNADAL F.\n(Exported :21/03/2017 23:00)"}
