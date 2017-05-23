@@ -18,23 +18,23 @@ class DataParser(HTMLParser):
         super().__init__()
         self.recording = 0
         self.data = []
+        self._data = ""
+        self._starttag = None
 
     def handle_starttag(self, tag, attrs):
         if tag != 'td':
             return
-        if self.recording:
-            self.recording += 1
-            return
-        self.recording = 1
-
-    def handle_endtag(self, tag):
-        if tag == 'td' and self.recording:
-            self.recording -= 1
+        self._starttag = tag
 
     def handle_data(self, data):
-        if data.strip():
-            if self.recording:
-                self.data.append(data.strip())
+        self._data = data
+
+    def handle_endtag(self, tag):
+        if self._starttag == "td":
+            self.data.append(self._data)
+            print(self._data)
+        self._data = ""
+        self._starttag = None
 
 
 class MenuParser(HTMLParser):
@@ -208,8 +208,8 @@ class Aurion():
         parser.feed(result.text)
 
         data = parser.data[2:-1]
-        return [{"year": data[i], "unite": data[i + 1], "name": data[i + 2], "mark": data[i + 3], "coeff": data[i + 4]}
-                for i in range(0, len(data) - 4, 5)]
+        return [{"year": data[i], "unite": data[i + 1], "name": data[i + 2], "mark": data[i + 3], "coeff": data[i + 5]}
+                for i in range(0, len(data) - 4, 6)]
 
     def get_absences(self):
         """
