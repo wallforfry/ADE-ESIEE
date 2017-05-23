@@ -175,9 +175,27 @@ class Aurion():
             raise PersoException("Wrong credentials")
 
     def get_unites_and_groups(self):
-        return self.getGroupsFirstPage(self.session, self.viewstate) + self.getGroupsSecondPage(
+
+        data = self.getGroupsFirstPage(self.session, self.viewstate) + self.getGroupsSecondPage(
             self.session,
             self.viewstate)
+
+        realNames = self.get_marks()
+
+        result = []
+        for cours in data:
+            added = False
+            for name in realNames:
+                if name.get("unite") in cours:
+                    # print(cours)
+                    result.append({"unite": cours, "name": name.get("name")})
+                    added = True
+                    break
+            if not added:
+                result.append({"unite": cours, "name": ""})
+            added = False
+
+        return result
 
     def get_marks(self):
         """

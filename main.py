@@ -33,15 +33,8 @@ def get_groups():
 
         aurion.connect(username, password)
         myCours = aurion.get_unites_and_groups()
-        realNames = aurion.get_marks()
 
-        result = []
-        for cours in myCours:
-            for name in realNames:
-                if name.get("unite") in cours:
-                    result.append({"unite": cours, "name": name.get("name")})
-
-        value = json.dumps(result)
+        value = json.dumps(myCours)
         return value
 
     except PersoException as e:
@@ -54,7 +47,7 @@ def get_agenda():
         return render_template("index.html")
 
     groups = request.form['groups']
-    mycours = [group.get("unite") for group in json.loads(groups)]
+    mycours = json.loads(groups)
 
     ade = ADECalendar()
 

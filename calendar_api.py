@@ -48,8 +48,8 @@ class ADECalendar():
         all = self.get_cours_by_unites_and_groups(data, self.groups_unites)
         all = self.get_cours_by_month(all, month)
         all = self.get_cours_by_day(all, day)
-
-        return [{"name": elt['name'], "start": elt['start'], "end": elt['end'], "rooms": elt["rooms"][0], "prof": self.prof_finder(elt)} for elt in
+        return [{"name": elt['name'], "start": elt['start'], "end": elt['end'], "rooms": elt["rooms"][0],
+                 "prof": self.prof_finder(elt), "unite": self.unite_name_finder(elt["name"])} for elt in
                 all]
 
     def get_all_cours(self):
@@ -61,7 +61,7 @@ class ADECalendar():
         all = self.get_cours_by_unites_and_groups(data, self.groups_unites)
 
         return [{"name": elt['name'], "start": elt['start'], "end": elt['end'], "rooms": elt["rooms"][0],
-                 "prof": self.prof_finder(elt)} for elt in
+                 "prof": self.prof_finder(elt), "unite": self.unite_name_finder(elt["name"])} for elt in
                 all]
 
     def is_group(self, description, name, groupe):
@@ -126,9 +126,11 @@ class ADECalendar():
         '''
         self.groups_unites = []
         for data in aurion_data:
-            groups = self.groups_finder(data)
+            groups = self.groups_finder(data["unite"])
             for group in groups:
-                self.groups_unites.append({"unite": self.format_unites(self.unites_finder(data)), "groupe": group})
+                self.groups_unites.append(
+                    {"unite": self.format_unites(self.unites_finder(data["unite"])), "groupe": group,
+                     "name": data["name"]})
 
     def groups_finder(self, data):
         '''
@@ -183,6 +185,21 @@ class ADECalendar():
         :return: professors names
         '''
         description = data["description"]
-        exp = description.find("(Exported :")-1
-        aurion = description.find("AURION")+len("AURION")+1
+        exp = description.find("(Exported :") - 1
+        aurion = description.find("AURION") + len("AURION") + 1
         return description[aurion:exp]
+
+    def unite_name_finder(self, data):
+        '''
+
+        :param data: row of aurion provided data
+        :return: unite natural name
+        '''
+        print(data)
+        for unite_name in self.groups_unites:
+            #print(unite_name["unite"]+" "+data[:data.find(":")])
+            if unite_name["unite"] == data[:data.find(":")]:
+                print(data+" "+unite_name["name"])
+                return unite_name["name"]
+
+
