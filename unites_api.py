@@ -6,8 +6,6 @@ Date : 23/05/2017
 """
 import csv
 from html.parser import HTMLParser
-import requests
-
 
 class UnitesParser(HTMLParser):
     """
@@ -83,8 +81,8 @@ def get_row_on_website():
 
     result = None
     """
-
-    with open("site.html", mode="r") as f:
+    #Encodage for linux server only
+    with open("site.html", encoding="iso-8859-1", mode="r") as f:
         result = f.read()
 
     return result

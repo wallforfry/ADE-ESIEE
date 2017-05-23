@@ -7,7 +7,6 @@ Date : 21/03/2017
 
 from html.parser import HTMLParser
 import requests
-import unites_api
 
 
 class DataParser(HTMLParser):
