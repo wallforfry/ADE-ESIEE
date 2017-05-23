@@ -54,7 +54,7 @@ def get_agenda():
         return render_template("index.html")
 
     groups = request.form['groups']
-    mycours = json.loads(groups)
+    mycours = [group.get("unite") for group in json.loads(groups)]
 
     ade = ADECalendar()
 
