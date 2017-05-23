@@ -195,11 +195,9 @@ class ADECalendar():
         :param data: row of aurion provided data
         :return: unite natural name
         '''
-        print(data)
         for unite_name in self.groups_unites:
             #print(unite_name["unite"]+" "+data[:data.find(":")])
             if unite_name["unite"] == data[:data.find(":")]:
-                print(data+" "+unite_name["name"])
                 return unite_name["name"]
 
 
