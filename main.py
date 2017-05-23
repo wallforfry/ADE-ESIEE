@@ -1,6 +1,6 @@
 """
 Project : ADE-ESIEE
-File : test.py
+File : main.py
 Author : DELEVACQ Wallerand
 Date : 21/03/2017
 """
@@ -10,6 +10,7 @@ from aurion_api import Aurion
 from aurion_api import PersoException
 from flask import Flask, request, render_template
 import json
+import unites_api
 
 flaskPort = 5000
 
@@ -177,6 +178,10 @@ if __name__ == "__main__":
     #ade.set_groups_unites(["16_E4FR_RE4R23_2R"])
     #result = ade.get_all_cours()
     #print(result)
+
+    #Update CSV file on api launch
+    result = unites_api.get_row_on_website()
+    unites_api.generate_csv_file(result)
     app.run(host='0.0.0.0', port=flaskPort)
 
     # row = {"description":"\n1R\n2R\nTE3R21\nAURION\nNADAL F.\n(Exported :21/03/2017 23:00)"}

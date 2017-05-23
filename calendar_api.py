@@ -1,6 +1,6 @@
 """
 Project : ADE-ESIEE
-File : test.py
+File : calendar_api.py
 Author : DELEVACQ Wallerand
 Date : 21/03/2017
 """
@@ -9,7 +9,7 @@ import json
 import urllib.request
 import urllib.error
 import re
-
+from unites_api import search_unite
 
 class ADECalendar():
     """
@@ -129,8 +129,7 @@ class ADECalendar():
             groups = self.groups_finder(data["unite"])
             for group in groups:
                 self.groups_unites.append(
-                    {"unite": self.format_unites(self.unites_finder(data["unite"])), "groupe": group,
-                     "name": data["name"]})
+                    {"unite": self.format_unites(self.unites_finder(data["unite"])), "groupe": group})
 
     def groups_finder(self, data):
         '''
@@ -195,9 +194,10 @@ class ADECalendar():
         :param data: row of aurion provided data
         :return: unite natural name
         '''
-        for unite_name in self.groups_unites:
-            #print(unite_name["unite"]+" "+data[:data.find(":")])
-            if unite_name["unite"] == data[:data.find(":")]:
-                return unite_name["name"]
+        #for unite_name in self.groups_unites:
+        #    #print(unite_name["unite"]+" "+data[:data.find(":")])
+        #    if unite_name["unite"] == data[:data.find(":")]:
+        #        return unite_name["name"]
 
+        return search_unite(data[:data.find(":")])
 
