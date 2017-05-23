@@ -33,8 +33,15 @@ def get_groups():
 
         aurion.connect(username, password)
         myCours = aurion.get_unites_and_groups()
+        realNames = aurion.get_marks()
 
-        value = json.dumps(myCours)
+        result = []
+        for cours in myCours:
+            for name in realNames:
+                if name.get("unite") in cours:
+                    result.append({"unite": cours, "name": name.get("name")})
+
+        value = json.dumps(result)
         return value
 
     except PersoException as e:

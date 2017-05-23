@@ -32,7 +32,6 @@ class DataParser(HTMLParser):
     def handle_endtag(self, tag):
         if self._starttag == "td":
             self.data.append(self._data)
-            print(self._data)
         self._data = ""
         self._starttag = None
 
