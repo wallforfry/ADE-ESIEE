@@ -83,6 +83,8 @@ def get_row_on_website():
     """
     #Encodage for linux server only
     with open("site.html", encoding="iso-8859-1", mode="r") as f:
+    #Encodage for windows
+    #with open("site.html", mode="r") as f:
         result = f.read()
 
     return result

@@ -126,10 +126,10 @@ class ADECalendar():
         '''
         self.groups_unites = []
         for data in aurion_data:
-            groups = self.groups_finder(data["unite"])
+            groups = self.groups_finder(data)
             for group in groups:
                 self.groups_unites.append(
-                    {"unite": self.format_unites(self.unites_finder(data["unite"])), "groupe": group})
+                    {"unite": self.format_unites(self.unites_finder(data)), "groupe": group})
 
     def groups_finder(self, data):
         '''
