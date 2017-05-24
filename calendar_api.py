@@ -76,6 +76,13 @@ class ADECalendar():
         real_group = description[back[0]:description.find(name[:name.find(":")]) - 1]
         if str(groupe) in real_group:
             return True
+        else:
+            #Handle cases like "at6-7" compared to "at6" or "at7"
+            if "-" in real_group:
+                first = real_group[:real_group.find("-")]
+                second = first[:len(first)-1]+real_group[real_group.find("-")+1:]
+                if (str(groupe) in first) or (str(groupe) in second):
+                    return True
         return False
 
     def has_this_cours(self, cours, groups_and_unites):
