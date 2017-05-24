@@ -86,9 +86,10 @@ class ADECalendar():
         :return: boolean if this cours is in list of groups and unites
         '''
         for elt in groups_and_unites:
-            if cours['name'][:cours['name'].find(":")] == elt['unite']:
-                if self.is_group(cours['description'], cours['name'], elt['groupe']):
-                    return True
+            if elt['unite'] is not None:
+                if (elt['unite'][:elt['unite'].find("-")] in cours['name']) and (elt['unite'][elt['unite'].find("-")+1:] in cours['name']):
+                    if self.is_group(cours['description'], cours['name'], elt['groupe']):
+                        return True
         return False
 
     def get_cours_by_unites_and_groups(self, cours, groups_and_unites):

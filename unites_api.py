@@ -45,7 +45,7 @@ def generate_csv_file(row):
     parser.feed(row)
     data = parser.data
 
-    with open('unites.csv', 'w', newline='') as csvfile:
+    with open('unites.csv', 'w', newline='', encoding="iso-8859-1") as csvfile:
         writer = csv.writer(csvfile)
         for i in range(2, len(data), 9):
             writer.writerow(
@@ -96,7 +96,7 @@ def search_unite(unite_code):
     :param unite_code: Code like "IGI-2102"
     :return: "Name of the unite"
     """
-    with open("unites.csv") as f:
+    with open("unites.csv", encoding="iso-8859-1") as f:
         csv_file = csv.reader(f, delimiter=",")
         for row in csv_file:
             # if current rows 2nd value is equal to input, print that row
