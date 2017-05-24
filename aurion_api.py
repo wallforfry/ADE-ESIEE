@@ -180,22 +180,6 @@ class Aurion():
             self.session,
             self.viewstate)
 
-        #realNames = self.get_marks()
-
-        #result = []
-        #for cours in data:
-        #   result.append({"unite": cours, "name": unites_api.search_unite(cours)})
-        """added = False
-            for name in realNames:
-                if name.get("unite") in cours:
-                    # print(cours)
-                    result.append({"unite": cours, "name": name.get("name")})
-                    added = True
-                    break
-            if not added:
-                result.append({"unite": cours, "name": ""})
-            added = False"""
-
         return data
 
     def get_marks(self):
@@ -354,33 +338,4 @@ class Aurion():
 
         parser = DataParser()
         parser.feed(result.text)
-        return parser.data[2:-1]
-
-    def getUnitesNaturalNames(self):
-        """
-        Get first page of groups
-
-        :param session_requests: requests's session
-        :param viewstate_value: value of hidden filed viewstate
-        :return: return data likes ["16_E2_ESP_2003_S2_1, ...]
-        """
-        #idt = self.menu_idt[self.menu_data.index("Mes Groupes")]
-        idt = "388"
-        url = 'https://webaurion.esiee.fr/faces/ChoixDonnee.xhtml'
-        payload = {"form": "form",
-                   "formlargeurDivCenter": "1691",
-                   "form:headerSubview:j_idt46": "44807",
-                   "form:j_idt168-value": "false",
-                   "javax.faces.ViewState": self.viewstate,
-                   "form:Sidebar:j_idt" + idt: "form:Sidebar:j_idt" + idt  # E2 321 E1 76 BJ6D)jfVu
-                   }
-        result = self.session.post(
-            url,
-            headers=dict(referer=url),
-            data=payload
-        )
-
-        parser = DataParser()
-        parser.feed(result.text)
-
         return parser.data[2:-1]
