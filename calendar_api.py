@@ -148,6 +148,12 @@ class ADECalendar():
         back = [m.start() for m in re.finditer("_", data[::-1])]
         if "EIG" in data:
             return data[len(data) - 3:len(data) - 2] + data[len(data) - 2:len(data) - 1].lower() + data[len(data):]
+
+        if "PR" in data:
+            real_group = data[len(data) - back[1]:].replace("_", "-")
+            return [real_group, real_group[0].upper() + real_group[1:].lower(),
+                    real_group[0].lower() + real_group[1:].upper(), real_group.upper(), real_group.lower()]
+
         real_group = data[len(data) - back[0]:]
         if len(real_group) >= 2:
             return [real_group, real_group[0].upper() + real_group[1:].lower(),
@@ -208,4 +214,3 @@ class ADECalendar():
         #        return unite_name["name"]
 
         return search_unite(data[:data.find(":")])
-
