@@ -77,13 +77,7 @@ class ADECalendar():
         if str(groupe) in real_group:
             return True
         else:
-            #Handle cases like "at6-7" compared to "at6" or "at7"
-            if "-" in real_group:
-                first = real_group[:real_group.find("-")]
-                second = first[:len(first)-1]+real_group[real_group.find("-")+1:]
-                if (str(groupe) in first) or (str(groupe) in second):
-                    return True
-        return False
+            return False
 
     def has_this_cours(self, cours, groups_and_unites):
         '''
@@ -149,7 +143,7 @@ class ADECalendar():
         if "EIG" in data:
             return data[len(data) - 3:len(data) - 2] + data[len(data) - 2:len(data) - 1].lower() + data[len(data):]
 
-        if "PR" in data:
+        if "PR" in data and len(back) > 4:
             real_group = data[len(data) - back[1]:].replace("_", "-")
             return [real_group, real_group[0].upper() + real_group[1:].lower(),
                     real_group[0].lower() + real_group[1:].upper(), real_group.upper(), real_group.lower()]
@@ -187,8 +181,12 @@ class ADECalendar():
             real_group = real_group.replace("_", "-")
             return real_group
         if len(back) == 5:  # 16_E2_ESP_2003_S2_2
-            real_group = data[back[1] + 1:back[4]]
-            real_group = real_group.replace("_", "-")
+            if "PR" in data:
+                real_group = data[back[1] + 1:back[3]]
+                real_group = real_group.replace("_", "-")
+            else:
+                real_group = data[back[1] + 1:back[4]]
+                real_group = real_group.replace("_", "-")
             return real_group
 
     def prof_finder(self, data):
