@@ -355,5 +355,7 @@ class Aurion():
         for row in data:
             if mail in row.get(fieldsnames[1]):
                 groups.append(row.get(fieldsnames[2]))
+            elif mail in row.get(fieldsnames[0]):
+                groups.append(row.get(fieldsnames[2]))
 
         return groups

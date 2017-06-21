@@ -211,5 +211,4 @@ class ADECalendar():
         #    #print(unite_name["unite"]+" "+data[:data.find(":")])
         #    if unite_name["unite"] == data[:data.find(":")]:
         #        return unite_name["name"]
-        print(data[:data.find(":")])
         return search_unite_from_csv(data[:data.find(":")])
