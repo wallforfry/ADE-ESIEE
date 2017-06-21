@@ -95,7 +95,7 @@ An activity is composed of:<br>
 </p>
 <br>
 <p>
-  Typical request is make on /api/ade-esiee/calendar/ url
+  Typical request is make on /api/ade-esiee/agenda/ url
   <br>
   The POST requests's arguments are :
   <br>
@@ -103,6 +103,40 @@ An activity is composed of:<br>
   <pre>
    {
      groups
+   }
+   </pre>
+  <br>
+  This result in the following JSON template:
+  <pre>
+  {
+    "name"       : "String",
+    "start"      : "Date",
+    "end"        : "Date",
+    "rooms"      : "Room",
+    "prof"       : "Name"
+  }
+  </pre>
+</p>
+<br>
+<h4 id="agenda">Get Agenda with ESIEE id or Mail</h4>
+<p>
+An activity is composed of:<br>
+
+    The name of the activity (mainly the subject name).
+    The starting time of the activity.
+    The ending time of the activity.
+    The rooms where the activity take place.
+    The name of the professor.
+</p>
+<br>
+<p>
+  Typical request is make on /api/ade-esiee/agenda/ url
+  <br>
+  The POST requests's arguments are :
+  <br>
+  <pre>
+   {
+     "mail"     : "String" (mail or id)
    }
    </pre>
   <br>
