@@ -44,6 +44,10 @@ def get_groups():
 
 @app.route("/api/ade-esiee/agenda", methods=['GET', 'POST'])
 def get_agenda():
+    with open("jdp.json", mode="r") as f:
+        return f.read()
+
+"""def get_agenda():
     if request.method == 'GET':
         return render_template("index.html")
 
@@ -61,7 +65,7 @@ def get_agenda():
 
     except PersoException as e:
         return "[{\"error\": \"" + str(e) + "\"}]"
-
+"""
 
 @app.route("/api/ade-esiee/calendar", methods=['GET', 'POST'])
 def get_calendar():
