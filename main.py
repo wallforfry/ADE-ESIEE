@@ -56,6 +56,8 @@ def get_agenda():
         ade.set_groups_unites(unites_and_groups)
 
         result = ade.get_all_cours()
+        if not result:
+            return "[{\"error\": \"No events\"}]"
         value = json.dumps(result)
         return value
 
