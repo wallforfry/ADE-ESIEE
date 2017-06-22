@@ -28,8 +28,8 @@
 
    {
     "name": "IGI-2102:CTRL",
-    "start": "2017-06-22T06:00:00.000Z",
-    "end": "2017-06-22T08:00:00.000Z",
+    "start": "2017-06-23T06:00:00.000Z",
+    "end": "2017-06-23T08:00:00.000Z",
     "rooms": "4451",
     "prof": "",
     "unite": "Programation en C"
@@ -37,10 +37,19 @@
 
   {
     "name": "MSH-2103:PERS",
-    "start": "2017-06-22T08:00:00.000Z",
-    "end": "2017-06-22T10:00:00.000Z",
+    "start": "2017-06-23T08:00:00.000Z",
+    "end": "2017-06-23T10:00:00.000Z",
     "rooms": "4051",
     "prof": "M. Gradwell",
     "unite": "Design et créativité"
+  },
+
+  {
+    "name": "SFM-2102:COURS",
+    "start": "2017-06-23T11:00:00.000Z",
+    "end": "2017-06-23T13:00:00.000Z",
+    "rooms": "260",
+    "prof": "A. Zampera",
+    "unite": "Algèbre linéaire"
   }
 ]
