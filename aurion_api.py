@@ -358,4 +358,7 @@ class Aurion():
             elif mail in row.get(fieldsnames[0]):
                 groups.append(row.get(fieldsnames[2]))
 
-        return groups
+        if len(groups) == 0:
+            raise PersoException("Wrong credentials")
+        else:
+            return groups
