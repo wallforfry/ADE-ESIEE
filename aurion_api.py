@@ -7,6 +7,7 @@ Date : 21/03/2017
 
 from html.parser import HTMLParser
 import requests
+import csv
 
 
 class DataParser(HTMLParser):
@@ -339,3 +340,25 @@ class Aurion():
         parser = DataParser()
         parser.feed(result.text)
         return parser.data[2:-1]
+
+    def get_unites_and_groups_from_csv(self, mail):
+
+        groups = []
+
+        url = "http://test.wallforfry.fr/BDE_MES_GROUPES.csv"
+
+        response = requests.get(url)
+        f = response.content.decode("ISO-8859-1")
+
+        fieldsnames = ["login.Individu","Coordonnée.Coordonnée", "Code.Groupe"]
+        data = csv.DictReader(f.splitlines(), fieldsnames, delimiter=';')
+        for row in data:
+            if mail in row.get(fieldsnames[1]):
+                groups.append(row.get(fieldsnames[2]))
+            elif mail in row.get(fieldsnames[0]):
+                groups.append(row.get(fieldsnames[2]))
+
+        if len(groups) == 0:
+            raise PersoException("Wrong credentials")
+        else:
+            return groups

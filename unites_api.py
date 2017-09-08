@@ -7,6 +7,9 @@ Date : 23/05/2017
 import csv
 from html.parser import HTMLParser
 
+import requests
+
+
 class UnitesParser(HTMLParser):
     """
     Parse data unites intra website
@@ -103,6 +106,18 @@ def search_unite(unite_code):
             if unite_code == row[1]:
                 return row[2]
 
+def search_unite_from_csv(unite_code):
+        url = "http://test.wallforfry.fr/BDE_UNITES.csv"
+
+        response = requests.get(url)
+        f = response.content.decode("ISO-8859-1")
+        fieldsnames = ["Code.Unité", "Libellé.Unité"]
+        data = csv.DictReader(f.splitlines(), fieldsnames, delimiter=';')
+        for row in data:
+            if unite_code.replace("-", "_") in row.get(fieldsnames[0]):
+                return row.get(fieldsnames[1])
+
+        return ""
 
 if __name__ == "__main__":
     result = get_row_on_website()
