@@ -65,6 +65,26 @@ def get_agenda():
         return "[{\"error\": \"" + str(e) + "\"}]"
 
 
+@app.route("/api/ade-esiee/agendaFromGroups", methods=['GET', 'POST'])
+def get_agenda_from_groups():
+    if request.method == 'GET':
+        return render_template("index.html")
+
+    groups = request.form['groups']
+    unites_and_groups = json.loads(groups)
+    ade = ADECalendar()
+    try:
+        ade.set_groups_unites(unites_and_groups)
+        result = ade.get_all_cours()
+        if not result:
+            return "[{\"error\": \"No events\"}]"
+        value = json.dumps(result)
+        return value
+
+    except PersoException as e:
+        return "[{\"error\": \"" + str(e) + "\"}]"
+
+
 @app.route("/api/ade-esiee/calendar", methods=['GET', 'POST'])
 def get_calendar():
     if request.method == 'GET':
@@ -176,12 +196,12 @@ def get_appreciations():
 
 
 if __name__ == "__main__":
-    #ade = ADECalendar()
-    #ade.set_groups_unites(["16_E4FR_RE4R23_2R"])
-    #result = ade.get_all_cours()
-    #print(result)
+    # ade = ADECalendar()
+    # ade.set_groups_unites(["16_E4FR_RE4R23_2R"])
+    # result = ade.get_all_cours()
+    # print(result)
 
-    #Update CSV file on api launch
+    # Update CSV file on api launch
     result = unites_api.get_row_on_website()
     unites_api.generate_csv_file(result)
     app.run(host='0.0.0.0', port=flaskPort)
