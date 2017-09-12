@@ -89,7 +89,8 @@ class ADECalendar():
         '''
         for elt in groups_and_unites:
             if elt['unite'] is not None:
-                if (elt['unite'][:elt['unite'].find("-")] in cours['name']) and (elt['unite'][elt['unite'].find("-")+1:] in cours['name']):
+                if (elt['unite'][:elt['unite'].find("-")] in cours['name']) and (
+                            elt['unite'][elt['unite'].find("-") + 1:] in cours['name']):
                     if self.is_group(cours['description'], cours['name'], elt['groupe']):
                         return True
         return False
@@ -153,7 +154,7 @@ class ADECalendar():
         if len(real_group) >= 2:
             return [real_group, real_group[0].upper() + real_group[1:].lower(),
                     real_group[0].lower() + real_group[1:].upper(), real_group.upper(), real_group.lower()]
-        else:
+        elif not "EN3" in data:
             return [real_group, real_group.upper(), real_group.lower()]
 
     def unites_finder(self, data):
@@ -207,7 +208,7 @@ class ADECalendar():
         :param data: row of aurion provided data
         :return: unite natural name
         '''
-        #for unite_name in self.groups_unites:
+        # for unite_name in self.groups_unites:
         #    #print(unite_name["unite"]+" "+data[:data.find(":")])
         #    if unite_name["unite"] == data[:data.find(":")]:
         #        return unite_name["name"]
