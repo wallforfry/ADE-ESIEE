@@ -150,11 +150,20 @@ class ADECalendar():
             return [real_group, real_group[0].upper() + real_group[1:].lower(),
                     real_group[0].lower() + real_group[1:].upper(), real_group.upper(), real_group.lower()]
 
+        if "EN3" in data:
+            real_group = data[len(data) - back[0]:].replace("_", "-")
+            if len(real_group) >= 2:
+                return [real_group, real_group[0].upper() + real_group[1:].lower(),
+                        real_group[0].lower() + real_group[1:].upper(), real_group.upper(), real_group.lower()]
+            else:
+                return ["xx"]
+
         real_group = data[len(data) - back[0]:]
         if len(real_group) >= 2:
             return [real_group, real_group[0].upper() + real_group[1:].lower(),
                     real_group[0].lower() + real_group[1:].upper(), real_group.upper(), real_group.lower()]
-        elif not "EN3" in data:
+        #elif not "EN3" in data:
+        else:
             return [real_group, real_group.upper(), real_group.lower()]
 
     def unites_finder(self, data):
