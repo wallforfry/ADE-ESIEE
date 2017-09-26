@@ -76,7 +76,7 @@ class ADECalendar():
         back = [m.start() for m in re.finditer("\n", description)]
         startLine = 1
         if(len(description[:back[1]])> 5):
-            startLine = 2
+            startLine = 1
 
         real_group = description[back[startLine]:description.find(name[:name.find(":")]) - 1]
         if str(groupe) in real_group:
