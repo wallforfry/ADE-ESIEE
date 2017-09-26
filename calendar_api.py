@@ -62,7 +62,7 @@ class ADECalendar():
         all = self.get_cours_by_unites_and_groups(data, self.groups_unites)
 
         return [{"name": elt['name'], "start": elt['start'], "end": elt['end'], "rooms": elt["rooms"][0],
-                 "prof": self.prof_finder(elt), "unite": self.unite_name_finder(elt["name"])} for elt in
+                 "prof": self.prof_finder(elt), "unite": self.unite_name_finder(elt["name"]), "description": elt['description']} for elt in
                 all]
 
     def is_group(self, description, name, groupe):
@@ -74,7 +74,11 @@ class ADECalendar():
         :return: boolean if this group correspond to the unite event
         '''
         back = [m.start() for m in re.finditer("\n", description)]
-        real_group = description[back[0]:description.find(name[:name.find(":")]) - 1]
+        startLine = 1
+        if(len(description[:back[1]])> 5):
+            startLine = 2
+
+        real_group = description[back[startLine]:description.find(name[:name.find(":")]) - 1]
         if str(groupe) in real_group:
             return True
         else:
