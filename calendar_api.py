@@ -10,6 +10,7 @@ import urllib.request
 import urllib.error
 import re
 from unites_api import search_unite, search_unite_from_csv
+from planif_parser import ics_to_json_from_ade
 
 
 class ADECalendar():
@@ -27,16 +28,8 @@ class ADECalendar():
         '''
         Get and set event to all_cours variable
         '''
-        url = "https://bde.esiee.fr/api/calendar/activities"
 
-        try:
-            html_data = urllib.request.urlopen(url)
-            data = html_data.read().decode('utf8')
-            result = json.loads(data)
-            self.all_cours = [elt for elt in result]
-
-        except urllib.error.URLError as e:
-            print(e)
+        self.all_cours = ics_to_json_from_ade()
 
     def get_cours_of(self, day, month):
         """
