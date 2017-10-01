@@ -42,7 +42,12 @@ def get_groups():
         myCours = aurion.get_unites_and_groups()
 
         value = json.dumps(myCours)
-        return value
+        response = app.response_class(
+            response=value,
+            status=200,
+            mimetype='application/json'
+        )
+        return response
 
     except PersoException as e:
         return "[{\"error\": \"" + str(e) + "\"}]"
@@ -64,8 +69,14 @@ def get_agenda():
         result = ade.get_all_cours()
         if not result:
             return "[{\"error\": \"No events\"}]"
+
         value = json.dumps(result)
-        return value
+        response = app.response_class(
+            response=value,
+            status=200,
+            mimetype='application/json'
+        )
+        return response
 
     except PersoException as e:
         return "[{\"error\": \"" + str(e) + "\"}]"
@@ -85,7 +96,12 @@ def get_agenda_from_groups():
         if not result:
             return "[{\"error\": \"No events\"}]"
         value = json.dumps(result)
-        return value
+        response = app.response_class(
+            response=value,
+            status=200,
+            mimetype='application/json'
+        )
+        return response
 
     except PersoException as e:
         return "[{\"error\": \"" + str(e) + "\"}]"
@@ -120,7 +136,12 @@ def get_calendar():
                 result = ade.get_cours_of(day, month)
 
         value = json.dumps(result)
-        return value
+        response = app.response_class(
+            response=value,
+            status=200,
+            mimetype='application/json'
+        )
+        return response
 
     except PersoException as e:
         return "[{\"error\": \"" + str(e) + "\"}]"
@@ -145,7 +166,12 @@ def get_marks():
         marks = aurion.get_marks()
         value = json.dumps(marks)
 
-        return value
+        response = app.response_class(
+            response=value,
+            status=200,
+            mimetype='application/json'
+        )
+        return response
 
     except PersoException as e:
         return "[{\"error\": \"" + str(e) + "\"}]"
@@ -170,7 +196,12 @@ def get_absences():
         absences = aurion.get_absences()
         value = json.dumps(absences)
 
-        return value
+        response = app.response_class(
+            response=value,
+            status=200,
+            mimetype='application/json'
+        )
+        return response
 
     except PersoException as e:
         return "[{\"error\": \"" + str(e) + "\"}]"
@@ -195,7 +226,12 @@ def get_appreciations():
         appreciations = aurion.get_appreciations()
         value = json.dumps(appreciations)
 
-        return value
+        response = app.response_class(
+            response=value,
+            status=200,
+            mimetype='application/json'
+        )
+        return response
 
     except PersoException as e:
         return "[{\"error\": \"" + str(e) + "\"}]"
