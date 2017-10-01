@@ -4,13 +4,19 @@ File : main.py
 Author : DELEVACQ Wallerand
 Date : 21/03/2017
 """
-
+import planif_parser
 from calendar_api import ADECalendar
 from aurion_api import Aurion
 from aurion_api import PersoException
 from flask import Flask, request, render_template
 import json
 import unites_api
+
+import time
+import atexit
+
+from apscheduler.schedulers.background import BackgroundScheduler
+from apscheduler.triggers.interval import IntervalTrigger
 
 flaskPort = 5000
 
@@ -195,11 +201,28 @@ def get_appreciations():
         return "[{\"error\": \"" + str(e) + "\"}]"
 
 
+def update_ade_ics_file():
+    planif_parser.download_ics_from_planif()
+
+
 if __name__ == "__main__":
     # ade = ADECalendar()
     # ade.set_groups_unites(["16_E4FR_RE4R23_2R"])
     # result = ade.get_all_cours()
     # print(result)
+
+    update_ade_ics_file()
+
+    scheduler = BackgroundScheduler()
+    scheduler.start()
+    scheduler.add_job(
+        func=update_ade_ics_file,
+        trigger=IntervalTrigger(minutes=10),
+        id='printing_job',
+        name='Print date and time every five seconds',
+        replace_existing=True)
+    # Shut down the scheduler when exiting the app
+    atexit.register(lambda: scheduler.shutdown())
 
     # Update CSV file on api launch
     result = unites_api.get_row_on_website()
