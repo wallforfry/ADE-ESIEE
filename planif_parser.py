@@ -25,6 +25,8 @@ def download_ics_from_planif():
     except urllib.error.URLError as e:
         print(e)
 
+def str_to_date(str):
+    return str[0:4]+"-"+str[4:6]+"-"+str[6:8]+str[8]+str[9:11]+":"+str[11:13]+":"+str[13:15]+".000Z"
 
 def ics_to_json_from_ade():
     events_list = []
@@ -34,15 +36,14 @@ def ics_to_json_from_ade():
         for component in gcal.walk():
             if component.name == "VEVENT":
                 events_list.append(dict(description=str(component.get("DESCRIPTION")),
-                                        end=(component.get("DTEND").to_ical()).decode("utf-8"),
-                                        start=(component.get("DTSTART").to_ical()).decode("utf-8"),
+                                        end=(str_to_date(str(component.get("DTEND").to_ical().decode("utf-8")))),
+                                        start=(str_to_date(str(component.get("DTSTART").to_ical().decode("utf-8")))),
                                         name=str(component.get("SUMMARY")),
                                         rooms=(component.get("LOCATION").replace(" ", "")).split(",")))
     return events_list
 
 
 if __name__ == "__main__":
-    download_ics_from_planif()
-    ics_to_json_from_ade()
-
+    #download_ics_from_planif()
+    print(ics_to_json_from_ade()[0])
     pass
