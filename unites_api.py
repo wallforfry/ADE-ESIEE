@@ -110,7 +110,8 @@ def search_unite_from_csv(unite_code):
         url = "http://test.wallforfry.fr/BDE_UNITES.csv"
 
         response = requests.get(url)
-        f = response.content.decode("ISO-8859-1")
+        #f = response.content.decode("ISO-8859-1")
+        f = response.content.decode("utf-8")
         fieldsnames = ["Code.Unité", "Libellé.Unité"]
         data = csv.DictReader(f.splitlines(), fieldsnames, delimiter=';')
         for row in data:

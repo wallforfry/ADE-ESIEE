@@ -11,6 +11,7 @@ import urllib.error
 import re
 from unites_api import search_unite, search_unite_from_csv
 from planif_parser import ics_to_json_from_ade
+import aurion_api
 
 
 class ADECalendar():
@@ -55,7 +56,8 @@ class ADECalendar():
         all = self.get_cours_by_unites_and_groups(data, self.groups_unites)
 
         return [{"name": elt['name'], "start": elt['start'], "end": elt['end'], "rooms": elt["rooms"][0],
-                 "prof": self.prof_finder(elt), "unite": self.unite_name_finder(elt["name"]), "description": elt['description']} for elt in
+                 "prof": self.prof_finder(elt), "unite": self.unite_name_finder(elt["name"]),
+                 "description": elt['description']} for elt in
                 all]
 
     def is_group(self, description, name, groupe):
@@ -68,7 +70,7 @@ class ADECalendar():
         '''
         back = [m.start() for m in re.finditer("\n", description)]
         startLine = 1
-        if(len(description[:back[1]])> 5):
+        if (len(description[:back[1]]) > 5):
             startLine = 1
 
         real_group = description[back[startLine]:description.find(name[:name.find(":")]) - 1]
@@ -159,7 +161,7 @@ class ADECalendar():
         if len(real_group) >= 2:
             return [real_group, real_group[0].upper() + real_group[1:].lower(),
                     real_group[0].lower() + real_group[1:].upper(), real_group.upper(), real_group.lower()]
-        #elif not "EN3" in data:
+        # elif not "EN3" in data:
         else:
             return [real_group, real_group.upper(), real_group.lower()]
 
@@ -219,3 +221,14 @@ class ADECalendar():
         #    if unite_name["unite"] == data[:data.find(":")]:
         #        return unite_name["name"]
         return search_unite_from_csv(data[:data.find(":")])
+
+
+if __name__ == "__main__":
+    aurion = aurion_api.Aurion()
+    ade = ADECalendar()
+    ade.set_groups_unites(aurion.get_unites_and_groups_from_csv("bessiera"))
+
+    test = ade.groups_finder("17_EJA-2004_01")
+    print(test)
+    print(ade.format_unites("17_E2_EJA_2004_01"))
+    pass

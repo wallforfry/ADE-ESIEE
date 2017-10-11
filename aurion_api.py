@@ -348,7 +348,8 @@ class Aurion():
         url = "http://test.wallforfry.fr/BDE_MES_GROUPES.csv"
 
         response = requests.get(url)
-        f = response.content.decode("ISO-8859-1")
+        #f = response.content.decode("ISO-8859-1")
+        f = response.content.decode("utf-8")
 
         fieldsnames = ["login.Individu","Coordonnée.Coordonnée", "Code.Groupe"]
         data = csv.DictReader(f.splitlines(), fieldsnames, delimiter=';')
