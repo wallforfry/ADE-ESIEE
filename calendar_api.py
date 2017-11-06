@@ -156,8 +156,10 @@ class ADECalendar():
                         real_group[0].lower() + real_group[1:].upper(), real_group.upper(), real_group.lower()]
             else:
                 return ["xx"]
+
         if len(back) <= 1:
-            return [data[back[0]:]]
+            #return [data[back[0]:]]
+            return ["\n"]
 
         real_group = data[len(data) - back[0]:]
         if len(real_group) >= 2:
@@ -231,8 +233,8 @@ class ADECalendar():
 if __name__ == "__main__":
     aurion = aurion_api.Aurion()
     ade = ADECalendar()
-    ade.set_groups_unites(aurion.get_unites_and_groups_from_csv("douarred"))
-    print(ade.get_cours_of("09", "11"))
+    ade.set_groups_unites(aurion.get_unites_and_groups_from_csv("delevacw"))
+    print(ade.get_cours_of("10", "11"))
 
     test = ade.groups_finder("17_E3E")
     print(test)

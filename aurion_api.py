@@ -363,3 +363,8 @@ class Aurion():
             raise PersoException("Wrong credentials")
         else:
             return groups
+
+
+if __name__ == "__main__":
+    aurion = Aurion()
+    print(aurion.get_unites_and_groups_from_csv("delevacw"))
