@@ -182,6 +182,10 @@ class ADECalendar():
         :return: unite name formatted likes unite name in calendar api
         '''
         back = [m.start() for m in re.finditer("_", data)]
+        if len(back) == 1:
+            real_group = data[back[0] + 1:]
+            real_group = real_group.replace("_", "-")
+            return real_group
         if len(back) == 3:  # 16_E4FR_RE4R23_2R
             real_group = data[back[1] + 1:back[2]]
             real_group = real_group.replace("_", "-")
@@ -222,13 +226,12 @@ class ADECalendar():
         #        return unite_name["name"]
         return search_unite_from_csv(data[:data.find(":")])
 
-
 if __name__ == "__main__":
     aurion = aurion_api.Aurion()
     ade = ADECalendar()
-    ade.set_groups_unites(aurion.get_unites_and_groups_from_csv("bessiera"))
+    ade.set_groups_unites(aurion.get_unites_and_groups_from_csv("delevacw"))
 
-    test = ade.groups_finder("17_EJA-2004_01")
+    test = ade.groups_finder("17_IN3I18_1I")
     print(test)
     print(ade.format_unites("17_E2_EJA_2004_01"))
     pass
