@@ -158,8 +158,8 @@ class ADECalendar():
                 return ["xx"]
 
         if len(back) <= 1:
-            #return [data[back[0]:]]
-            return ["\n"]
+            return [data[back[0]:]]
+            #return ["\n"]
 
         real_group = data[len(data) - back[0]:]
         if len(real_group) >= 2:
