@@ -158,8 +158,8 @@ class ADECalendar():
                 return ["xx"]
 
         if len(back) <= 1:
-            #return [data[data.find("_")+1:]]
-            return ["", data[data.find("_")+1:]]
+            # return [data[data.find("_")+1:]]
+            return ["", data[data.find("_") + 1:]]
 
         real_group = data[len(data) - back[0]:]
         if len(real_group) >= 2:
@@ -189,6 +189,8 @@ class ADECalendar():
         if len(back) == 1:
             real_group = data[back[0] + 1:]
             real_group = real_group.replace("_", "-")
+            # Correction pour les noms de promos
+            real_group += ":"
             return real_group
         if len(back) == 3:  # 16_E4FR_RE4R23_2R
             real_group = data[back[1] + 1:back[2]]
@@ -229,6 +231,7 @@ class ADECalendar():
         #    if unite_name["unite"] == data[:data.find(":")]:
         #        return unite_name["name"]
         return search_unite_from_csv(data[:data.find(":")])
+
 
 if __name__ == "__main__":
     aurion = aurion_api.Aurion()
