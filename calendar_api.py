@@ -141,6 +141,9 @@ class ADECalendar():
         :return: list of different possible cases of group number
         '''
         back = [m.start() for m in re.finditer("_", data[::-1])]
+        if "EIG_2022" in data:
+            real_group = data[len(data) - back[0]:]
+            return [real_group, real_group[0].upper() + real_group[1:].lower(), real_group[0].lower() + real_group[1:].upper(), real_group.upper(), real_group.lower()]
         if "EIG" in data:
             return data[len(data) - 3:len(data) - 2] + data[len(data) - 2:len(data) - 1].lower() + data[len(data):]
 
@@ -243,7 +246,7 @@ if __name__ == "__main__":
     ade = ADECalendar()
     ade.set_groups_unites(aurion.get_unites_and_groups_from_csv("delevacw"))
 
-    #test = ade.groups_finder("17_E3_PR_3001_R_R2")
+    #test = ade.groups_finder("17_E1_EIG_2022_5")
     #print(test)
     #print(ade.format_unites("17_E3_PR_3001_R_R2"))
     pass
