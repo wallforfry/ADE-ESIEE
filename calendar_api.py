@@ -144,6 +144,11 @@ class ADECalendar():
         if "EIG" in data:
             return data[len(data) - 3:len(data) - 2] + data[len(data) - 2:len(data) - 1].lower() + data[len(data):]
 
+        if "PR_3001" in data and len(back) > 4:
+            real_group = data[len(data) - back[0]:].replace("_", "-")
+            return [real_group, real_group[0].upper() + real_group[1:].lower(),
+                    real_group[0].lower() + real_group[1:].upper(), real_group.upper(), real_group.lower()]
+
         if "PR" in data and len(back) > 4:
             real_group = data[len(data) - back[1]:].replace("_", "-")
             return [real_group, real_group[0].upper() + real_group[1:].lower(),
@@ -238,7 +243,7 @@ if __name__ == "__main__":
     ade = ADECalendar()
     ade.set_groups_unites(aurion.get_unites_and_groups_from_csv("delevacw"))
 
-    test = ade.groups_finder("17_E3E")
-    print(test)
-    print(ade.format_unites("17_E3E"))
+    #test = ade.groups_finder("17_E3_PR_3001_R_R2")
+    #print(test)
+    #print(ade.format_unites("17_E3_PR_3001_R_R2"))
     pass
