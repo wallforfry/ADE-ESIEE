@@ -225,7 +225,7 @@ class Aurion():
 
         data = parser.data[15:]
         return [{"year": data[i], "unite": data[i + 1], "name": data[i + 2], "mark": data[i + 3], "coeff": data[i + 5]}
-                for i in range(0, len(data) - 6, 6)]
+                for i in range(0, len(data), 6)]
 
     def get_absences(self):
         """
@@ -263,7 +263,7 @@ class Aurion():
         return [
             {"date": data[i], "hours": data[i + 1], "unite_code": data[i + 2], "name": data[i + 3], "prof": data[i + 4],
              "type": data[i + 5], "number": data[i + 6], "reason": data[i + 7]}
-            for i in range(11, len(data) - 4, 8)]
+            for i in range(11, len(data), 8)]
 
     def get_appreciations(self):
         """
