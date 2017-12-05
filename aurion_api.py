@@ -52,14 +52,14 @@ class MenuParser(HTMLParser):
         if tag != 'a':
             return
 
-        if len(attrs) != 4:
+        if len(attrs) != 6:
             return
 
-        if "link " not in attrs[3]:
+        if "link " not in attrs[2][1]:
             return
 
-        attribute = attrs[2][1]
-        self.idt.append(attribute[attribute.find("j_idt") + 5:attribute.find(":", 140) - 2])
+        attribute = attrs[1][1]
+        self.idt.append(attribute)
 
         if self.recording:
             self.recording += 1
@@ -194,12 +194,25 @@ class Aurion():
 
         idt = self.menu_idt[self.menu_data.index("Mes Notes")]
         url = 'https://webaurion.esiee.fr/faces/ChoixDonnee.xhtml'
-        payload = {"form": "form",
+        """payload = {"form": "form",
                    "formlargeurDivCenter": "1691",
                    "form:headerSubview:j_idt46": "44807",
                    "form:j_idt168-value": "false",
                    "javax.faces.ViewState": self.viewstate,
                    "form:Sidebar:j_idt" + idt: "form:Sidebar:j_idt" + idt  # E2 321 E1 76 BJ6D)jfVu
+                   }"""
+
+        payload = {"form": "form",
+                   "formlargeurDivCenter": "1608",
+                   "form:sauvegarde": "",
+                   "form:j_idt751:j_idt753_dropdown": "1",
+                   "form:j_idt751:j_idt753_mobiledropdown": "1",
+                   "form:j_idt751:j_idt753_page": "0",
+                   "form:j_idt856:j_idt753_page": "0",
+                   "form:j_idt829_focus": "",
+                   "form:j_idt829_input": "44808",
+                   "javax.faces.ViewState": self.viewstate,
+                   idt: idt  # E2 321 E1 76 BJ6D)jfVu
                    }
         result = self.session.post(
             url,
@@ -210,9 +223,9 @@ class Aurion():
         parser = DataParser()
         parser.feed(result.text)
 
-        data = parser.data[2:-1]
+        data = parser.data[15:]
         return [{"year": data[i], "unite": data[i + 1], "name": data[i + 2], "mark": data[i + 3], "coeff": data[i + 5]}
-                for i in range(0, len(data) - 4, 6)]
+                for i in range(0, len(data) - 6, 6)]
 
     def get_absences(self):
         """
@@ -226,11 +239,16 @@ class Aurion():
         idt = self.menu_idt[self.menu_data.index("Mes Absences")]
         url = 'https://webaurion.esiee.fr/faces/ChoixDonnee.xhtml'
         payload = {"form": "form",
-                   "formlargeurDivCenter": "1691",
-                   "form:headerSubview:j_idt46": "44807",
-                   "form:j_idt168-value": "false",
+                   "formlargeurDivCenter": "1608",
+                   "form:sauvegarde": "",
+                   "form:j_idt751:j_idt753_dropdown": "1",
+                   "form:j_idt751:j_idt753_mobiledropdown": "1",
+                   "form:j_idt751:j_idt753_page": "0",
+                   "form:j_idt856:j_idt753_page": "0",
+                   "form:j_idt829_focus": "",
+                   "form:j_idt829_input": "44808",
                    "javax.faces.ViewState": self.viewstate,
-                   "form:Sidebar:j_idt" + idt: "form:Sidebar:j_idt" + idt
+                   idt: idt  # E2 321 E1 76 BJ6D)jfVu
                    }
         result = self.session.post(
             url,
@@ -241,7 +259,7 @@ class Aurion():
         parser = DataParser()
         parser.feed(result.text)
 
-        data = parser.data[2:-1]
+        data = parser.data[4:]
         return [
             {"date": data[i], "hours": data[i + 1], "unite_code": data[i + 2], "name": data[i + 3], "prof": data[i + 4],
              "type": data[i + 5], "number": data[i + 6], "reason": data[i + 7]}
@@ -259,11 +277,16 @@ class Aurion():
         idt = self.menu_idt[self.menu_data.index("Mes Appréciations")]
         url = 'https://webaurion.esiee.fr/faces/ChoixDonnee.xhtml'
         payload = {"form": "form",
-                   "formlargeurDivCenter": "1691",
-                   "form:headerSubview:j_idt46": "44807",
-                   "form:j_idt168-value": "false",
+                   "formlargeurDivCenter": "1608",
+                   "form:sauvegarde": "",
+                   "form:j_idt751:j_idt753_dropdown": "1",
+                   "form:j_idt751:j_idt753_mobiledropdown": "1",
+                   "form:j_idt751:j_idt753_page": "0",
+                   "form:j_idt856:j_idt753_page": "0",
+                   "form:j_idt829_focus": "",
+                   "form:j_idt829_input": "44808",
                    "javax.faces.ViewState": self.viewstate,
-                   "form:Sidebar:j_idt" + idt: "form:Sidebar:j_idt" + idt
+                   idt: idt  # E2 321 E1 76 BJ6D)jfVu
                    }
         result = self.session.post(
             url,
@@ -274,7 +297,7 @@ class Aurion():
         parser = DataParser()
         parser.feed(result.text)
 
-        data = parser.data[2:-1]
+        data = parser.data[12:]
         return [{"year": data[i], "period": data[i + 1], "appreciation": data[i + 2]} for i in
                 range(3, len(data), 3)]
 
@@ -348,10 +371,10 @@ class Aurion():
         url = "http://test.wallforfry.fr/BDE_MES_GROUPES.csv"
 
         response = requests.get(url)
-        #f = response.content.decode("ISO-8859-1")
+        # f = response.content.decode("ISO-8859-1")
         f = response.content.decode("utf-8")
 
-        fieldsnames = ["login.Individu","Coordonnée.Coordonnée", "Code.Groupe"]
+        fieldsnames = ["login.Individu", "Coordonnée.Coordonnée", "Code.Groupe"]
         data = csv.DictReader(f.splitlines(), fieldsnames, delimiter=';')
         for row in data:
             if mail in row.get(fieldsnames[1]):
