@@ -224,7 +224,7 @@ class ADECalendar():
         :return: professors names
         '''
         description = data["description"]
-        exp = description.find("(Exported :") - 1
+        exp = description.find("(Exporté le:") - 1
         aurion = description.find("AURION") + len("AURION") + 1
         return description[aurion:exp]
 
@@ -246,7 +246,8 @@ if __name__ == "__main__":
     ade = ADECalendar()
     ade.set_groups_unites(aurion.get_unites_and_groups_from_csv("delevacw"))
 
-    #test = ade.groups_finder("17_E1_EIG_2022_5")
+    print(ade.groups_unites)
+    #test = ade.groups_finder("17_E2_IGE_2101_5")
     #print(test)
     #print(ade.format_unites("17_E3_PR_3001_R_R2"))
     pass
