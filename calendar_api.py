@@ -224,7 +224,7 @@ class ADECalendar():
         :return: professors names
         '''
         description = data["description"]
-        exp = description.find("(Exporté le:") - 1
+        exp = description.find("(Expor") - 1 #Gère "Exported" ou "Exporté"
         aurion = description.find("AURION") + len("AURION") + 1
         return description[aurion:exp]
 
