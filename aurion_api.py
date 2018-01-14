@@ -224,8 +224,21 @@ class Aurion():
         parser.feed(result.text)
 
         data = parser.data[15:]
-        return [{"year": data[i], "unite": data[i + 1], "name": data[i + 2], "mark": data[i + 3], "coeff": data[i + 5]}
+
+        marks = [{"year": data[i], "unite": data[i + 1], "name": data[i + 2], "mark": data[i + 3], "coeff": data[i + 5]}
                 for i in range(0, len(data), 6)]
+
+        average = 0.0
+        coeff = 0.0
+        for elt in marks:
+            average += float(elt['mark'].replace(",", "."))*float(elt['coeff'].replace(",", "."))
+            coeff += float(elt['coeff'].replace(",", "."))
+
+        average /= coeff
+
+        marks.append({"year": "", "unite": "", "name": "Moyenne", "mark": round(average, 2), "coeff": "1"})
+
+        return marks
 
     def get_absences(self):
         """
