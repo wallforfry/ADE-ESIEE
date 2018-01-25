@@ -53,6 +53,32 @@ def get_groups():
         return "[{\"error\": \"" + str(e) + "\"}]"
 
 
+@app.route("/api/ade-esiee/agenda/<mail>", methods=['GET', 'POST'])
+def get_agenda_mail(mail):
+
+    ade = ADECalendar()
+
+    try:
+        aurion = Aurion()
+        unites_and_groups = aurion.get_unites_and_groups_from_csv(mail)
+        ade.set_groups_unites(unites_and_groups)
+
+        result = ade.get_all_cours()
+        if not result:
+            return "[{\"error\": \"No events\"}]"
+
+        value = json.dumps(result)
+        response = app.response_class(
+            response=value,
+            status=200,
+            mimetype='application/json'
+        )
+        return response
+
+    except PersoException as e:
+        return "[{\"error\": \"" + str(e) + "\"}]"
+
+
 @app.route("/api/ade-esiee/agenda", methods=['GET', 'POST'])
 def get_agenda():
     if request.method == 'GET':
