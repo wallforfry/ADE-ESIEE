@@ -5,6 +5,7 @@ Author : DELEVACQ Wallerand
 Date : 21/03/2017
 """
 import planif_parser
+from ade_api import ADEApi
 from calendar_api import ADECalendar
 from aurion_api import Aurion
 from aurion_api import PersoException
@@ -56,7 +57,8 @@ def get_groups():
 @app.route("/api/ade-esiee/agenda/<mail>", methods=['GET', 'POST'])
 def get_agenda_mail(mail):
 
-    ade = ADECalendar()
+    #ade = ADECalendar()
+    ade = ADEApi()
 
     try:
         aurion = Aurion()
@@ -85,7 +87,8 @@ def get_agenda():
         return render_template("index.html")
 
     mail = request.form['mail']
-    ade = ADECalendar()
+    #ade = ADECalendar()
+    ade = ADEApi()
 
     try:
         aurion = Aurion()
@@ -273,12 +276,27 @@ if __name__ == "__main__":
     # result = ade.get_all_cours()
     # print(result)
 
-    update_ade_ics_file()
+    """update_ade_ics_file()
 
     scheduler = BackgroundScheduler()
     scheduler.start()
     scheduler.add_job(
         func=update_ade_ics_file,
+        trigger=IntervalTrigger(minutes=10),
+        id='printing_job',
+        name='Print date and time every five seconds',
+        replace_existing=True)
+    # Shut down the scheduler when exiting the app
+    atexit.register(lambda: scheduler.shutdown())
+    """
+
+    ADEApi().update_events()
+
+    # Update events every 10 minutes
+    scheduler = BackgroundScheduler()
+    scheduler.start()
+    scheduler.add_job(
+        func=ADEApi().update_events,
         trigger=IntervalTrigger(minutes=10),
         id='printing_job',
         name='Print date and time every five seconds',
