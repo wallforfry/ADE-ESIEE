@@ -221,7 +221,7 @@ class ADEApi():
     def _get_end_date(xml_event):
         date = xml_event.attrib["date"]
         end_hour = xml_event.attrib["endHour"]
-        end_hour = str(int(end_hour[:end_hour.find(":")]) + 1) + end_hour[end_hour.find(":"):]
+        end_hour = str(int(end_hour[:end_hour.find(":")]) - 1) + end_hour[end_hour.find(":"):]
 
         date = datetime.strptime(date, "%d/%m/%Y")
         return datetime.strftime(date, "%Y-%m-%d") + "T" + end_hour + ":00.000Z"
@@ -240,9 +240,9 @@ class ADEApi():
                     start = self._get_start_date(event)
                     end = self._get_end_date(event)
 
-                    obj = {"name": name, "prof": ", ".join(instructors), "rooms": ", ".join(classrooms),
+                    obj = {"name": name, "prof": ", ".join(instructors), "rooms": " ".join(classrooms),
                            "start": start, "end": end, "unite": search_unite_from_csv(unite),
-                           "description": unite + " " + ", ".join(instructors)}
+                           "description": unite + " " + " ".join(instructors)+ " " +" ".join(group)}
                     if obj not in result:
                         result.append(obj)
 
