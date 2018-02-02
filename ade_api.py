@@ -56,12 +56,14 @@ class ADEApi():
         return response.status_code == 200
 
     def set_groups_unites(self, aurion_data):
-        # self.groups_and_unites.append({"unite": "FLE-4102", "groupe": "E4inter"})
         self.groups_and_unites = tuple()
         self.unites = tuple()
         for data in aurion_data:
             groups = self.groups_finder(data)
-            self.groups.update(dict([(self.format_unites(data), groups)]))
+            try:
+                self.groups[self.format_unites(data)] += groups
+            except KeyError:
+                self.groups[self.format_unites(data)] = groups
             for group in groups:
                 d = dict([("unite", self.format_unites(data)), ("groupe", group)])
                 self.groups_and_unites += tuple([d])
@@ -245,18 +247,3 @@ class ADEApi():
                         result.append(obj)
 
         return result
-
-
-
-if __name__ == "__main__":
-    aurion = Aurion()
-    ade = ADEApi()
-
-    groups = aurion.get_unites_and_groups_from_csv("hueta")
-    ade.set_groups_unites(groups)
-
-    print(ade.groups_and_unites)
-
-    #print(type(ade.groups_and_unites))
-    #print(type(ade.events[0]))
-    print(ade.get_all_cours())
