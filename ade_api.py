@@ -230,7 +230,7 @@ class ADEApi():
                     start = self._get_start_date(event)
                     end = self._get_end_date(event)
 
-                    obj = {"name:": unite, "prof": ", ".join(instructors), "rooms": ", ".join(classrooms),
+                    obj = {"name": unite, "prof": ", ".join(instructors), "rooms": ", ".join(classrooms),
                            "start": start, "end": end, "unite": search_unite_from_csv(unite[:unite.find(":")]),
                            "description": unite + " " + ", ".join(instructors)}
                     if obj not in result:
