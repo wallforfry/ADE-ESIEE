@@ -15,6 +15,8 @@ from xml.etree import ElementTree
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.interval import IntervalTrigger
 
+from unites_api import search_unite_from_csv
+
 
 class ADEApi():
     project_id = "7"
@@ -218,7 +220,8 @@ class ADEApi():
                     end = self._get_end_date(event)
 
                     obj = {"name:": unite, "prof": ", ".join(instructors), "rooms": ", ".join(classrooms),
-                           "start": start, "end": end}
+                           "start": start, "end": end, "unite": search_unite_from_csv(unite[:unite.find(":")]),
+                           "description": unite+" "+", ".join(instructors)}
                     if obj not in result:
                         result.append(obj)
 
