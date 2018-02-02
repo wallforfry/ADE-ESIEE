@@ -212,17 +212,18 @@ class ADEApi():
         result = []
         for event in self.events:
             for unite_group in self.groups_and_unites:
-                if self._has_cours(event, unite_group["unite"], unite_group["groupe"]):
-                    instructors = self._get_instructor(event)
-                    unite = self._get_unite(event)
-                    classrooms = self._get_classroom(event)
-                    start = self._get_start_date(event)
-                    end = self._get_end_date(event)
+                if unite_group["unite"] is not None:
+                    if self._has_cours(event, unite_group["unite"], unite_group["groupe"]):
+                        instructors = self._get_instructor(event)
+                        unite = self._get_unite(event)
+                        classrooms = self._get_classroom(event)
+                        start = self._get_start_date(event)
+                        end = self._get_end_date(event)
 
-                    obj = {"name:": unite, "prof": ", ".join(instructors), "rooms": ", ".join(classrooms),
-                           "start": start, "end": end, "unite": search_unite_from_csv(unite[:unite.find(":")]),
-                           "description": unite+" "+", ".join(instructors)}
-                    if obj not in result:
-                        result.append(obj)
+                        obj = {"name:": unite, "prof": ", ".join(instructors), "rooms": ", ".join(classrooms),
+                               "start": start, "end": end, "unite": search_unite_from_csv(unite[:unite.find(":")]),
+                               "description": unite+" "+", ".join(instructors)}
+                        if obj not in result:
+                            result.append(obj)
 
         return result
