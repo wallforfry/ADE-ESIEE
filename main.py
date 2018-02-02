@@ -290,7 +290,8 @@ if __name__ == "__main__":
     atexit.register(lambda: scheduler.shutdown())
     """
 
-    ADEApi().update_events()
+    ade = ADEApi()
+    ade.update_events()
 
     # Update events every 10 minutes
     scheduler = BackgroundScheduler()

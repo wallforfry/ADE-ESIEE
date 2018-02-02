@@ -67,15 +67,18 @@ class ADEApi():
         return response.status_code == 200
 
     def _get_events_from_xml(self):
-        tree = ElementTree.parse("ade.xml")
-        self.events = tree.getroot().findall("event")
+        try:
+            tree = ElementTree.parse("ade.xml")
+            self.events = tree.getroot().findall("event")
+        except FileNotFoundError:
+            self.update_events()
 
     def _set_events_to_xml(self):
         url = self.base_url + "?sessionId=" + self.session_id + "&function=getEvents&tree=true&detail=8"
 
         response = requests.get(url)
 
-        with open("ade.xml", mode="w") as f:
+        with open("ade.xml", mode="w+") as f:
             f.write(response.text)
 
     @staticmethod
