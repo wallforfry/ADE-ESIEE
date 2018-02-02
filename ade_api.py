@@ -170,7 +170,8 @@ class ADEApi():
 
     @staticmethod
     def _has_cours(xml_event, unite, groups):
-        if unite in xml_event.attrib["name"]:
+        name = xml_event.attrib["name"]
+        if unite == name[:name.find(":")]:
             rows = (xml_event.find("resources")).findall("resource")
             for row in rows:
                 if "trainee" in row.attrib["category"]:
