@@ -210,6 +210,7 @@ class ADEApi():
     def _get_start_date(xml_event):
         date = xml_event.attrib["date"]
         start_hour = xml_event.attrib["startHour"]
+        start_hour = str(int(start_hour[:start_hour.find(":")]) - 1) + start_hour[start_hour.find(":"):]
 
         date = datetime.strptime(date, "%d/%m/%Y")
         return datetime.strftime(date, "%Y-%m-%d") + "T" + start_hour + ":00.000Z"
@@ -218,6 +219,7 @@ class ADEApi():
     def _get_end_date(xml_event):
         date = xml_event.attrib["date"]
         end_hour = xml_event.attrib["endHour"]
+        end_hour = str(int(end_hour[:end_hour.find(":")]) + 1) + end_hour[end_hour.find(":"):]
 
         date = datetime.strptime(date, "%d/%m/%Y")
         return datetime.strftime(date, "%Y-%m-%d") + "T" + end_hour + ":00.000Z"
@@ -243,3 +245,18 @@ class ADEApi():
                         result.append(obj)
 
         return result
+
+
+
+if __name__ == "__main__":
+    aurion = Aurion()
+    ade = ADEApi()
+
+    groups = aurion.get_unites_and_groups_from_csv("hueta")
+    ade.set_groups_unites(groups)
+
+    print(ade.groups_and_unites)
+
+    #print(type(ade.groups_and_unites))
+    #print(type(ade.events[0]))
+    print(ade.get_all_cours())
