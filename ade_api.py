@@ -15,6 +15,7 @@ from xml.etree import ElementTree
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.interval import IntervalTrigger
 
+from aurion_api import Aurion
 from unites_api import search_unite_from_csv
 
 
@@ -23,8 +24,10 @@ class ADEApi():
     base_url = "https://planif.esiee.fr/jsp/webapi"
     session_id = ""
 
-    events = None
-    groups_and_unites = []
+    events = ()
+    groups_and_unites = ()
+    unites = ()
+    groups = {}
 
     def __init__(self):
         self._get_events_from_xml()
@@ -54,12 +57,15 @@ class ADEApi():
 
     def set_groups_unites(self, aurion_data):
         # self.groups_and_unites.append({"unite": "FLE-4102", "groupe": "E4inter"})
-        self.groups_and_unites = []
+        self.groups_and_unites = tuple()
+        self.unites = tuple()
         for data in aurion_data:
             groups = self.groups_finder(data)
+            self.groups.update(dict([(self.format_unites(data), groups)]))
             for group in groups:
-                self.groups_and_unites.append(
-                    {"unite": self.format_unites(data), "groupe": group})
+                d = dict([("unite", self.format_unites(data)), ("groupe", group)])
+                self.groups_and_unites += tuple([d])
+                self.unites += tuple([self.format_unites(data)])
 
     def _set_project_id(self):
         url = self.base_url + "?sessionId=" + self.session_id + "&function=setProject&projectId=" + self.project_id
@@ -72,7 +78,8 @@ class ADEApi():
         try:
             tree = ElementTree.parse("ade.xml")
             self.events = tree.getroot().findall("event")
-        except FileNotFoundError:
+        except FileNotFoundError as e:
+            print(e)
             self.update_events()
 
     def _set_events_to_xml(self):
@@ -80,7 +87,7 @@ class ADEApi():
 
         response = requests.get(url)
 
-        with open("ade.xml", mode="w+") as f:
+        with open("ade.xml", mode="w") as f:
             f.write(response.text)
 
     @staticmethod
@@ -160,12 +167,12 @@ class ADEApi():
             return real_group
 
     @staticmethod
-    def _has_cours(xml_event, unite, group):
+    def _has_cours(xml_event, unite, groups):
         if unite in xml_event.attrib["name"]:
             rows = (xml_event.find("resources")).findall("resource")
             for row in rows:
                 if "trainee" in row.attrib["category"]:
-                    if group == row.attrib["name"]:
+                    if row.attrib["name"] in groups:
                         return True
         return False
 
@@ -211,19 +218,22 @@ class ADEApi():
     def get_all_cours(self):
         result = []
         for event in self.events:
-            for unite_group in self.groups_and_unites:
-                if unite_group["unite"] is not None:
-                    if self._has_cours(event, unite_group["unite"], unite_group["groupe"]):
-                        instructors = self._get_instructor(event)
-                        unite = self._get_unite(event)
-                        classrooms = self._get_classroom(event)
-                        start = self._get_start_date(event)
-                        end = self._get_end_date(event)
+            unite = self._get_unite(event)
+            unite_short = unite[:unite.find(":")]
+            if unite_short in self.unites:
+                group = self.groups[unite_short]
 
-                        obj = {"name:": unite, "prof": ", ".join(instructors), "rooms": ", ".join(classrooms),
-                               "start": start, "end": end, "unite": search_unite_from_csv(unite[:unite.find(":")]),
-                               "description": unite+" "+", ".join(instructors)}
-                        if obj not in result:
-                            result.append(obj)
+                if self._has_cours(event, unite_short, group):
+                    instructors = self._get_instructor(event)
+                    unite = self._get_unite(event)
+                    classrooms = self._get_classroom(event)
+                    start = self._get_start_date(event)
+                    end = self._get_end_date(event)
+
+                    obj = {"name:": unite, "prof": ", ".join(instructors), "rooms": ", ".join(classrooms),
+                           "start": start, "end": end, "unite": search_unite_from_csv(unite[:unite.find(":")]),
+                           "description": unite + " " + ", ".join(instructors)}
+                    if obj not in result:
+                        result.append(obj)
 
         return result
