@@ -66,6 +66,8 @@ def get_agenda_mail(mail):
         ade.set_groups_unites(unites_and_groups)
 
         result = ade.get_all_cours()
+
+        del ade
         if not result:
             return "[{\"error\": \"No events\"}]"
 
@@ -96,6 +98,8 @@ def get_agenda():
         ade.set_groups_unites(unites_and_groups)
 
         result = ade.get_all_cours()
+
+        del ade
         if not result:
             return "[{\"error\": \"No events\"}]"
 
