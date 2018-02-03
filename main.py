@@ -312,7 +312,7 @@ if __name__ == "__main__":
     # Update CSV file on api launch
     result = unites_api.get_row_on_website()
     unites_api.generate_csv_file(result)
-    app.run(host='0.0.0.0', port=flaskPort)
+    app.run(host='0.0.0.0', port=flaskPort, threaded=True)
 
     # row = {"description":"\n1R\n2R\nTE3R21\nAURION\nNADAL F.\n(Exported :21/03/2017 23:00)"}
     # prof_finder(row)
