@@ -302,7 +302,7 @@ if __name__ == "__main__":
     scheduler.start()
     scheduler.add_job(
         func=ADEApi().update_events,
-        trigger=IntervalTrigger(minutes=10),
+        trigger=IntervalTrigger(minutes=30),
         id='printing_job',
         name='Print date and time every five seconds',
         replace_existing=True)
