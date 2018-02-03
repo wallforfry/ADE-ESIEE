@@ -171,10 +171,10 @@ class ADEApi():
     @staticmethod
     def _has_cours(xml_event, unite, groups):
         name = xml_event.attrib["name"]
-        if unite == name[:name.find(":")]:
+        if unite == ADEApi._get_unite(xml_event):
             rows = (xml_event.find("resources")).findall("resource")
             for row in rows:
-                if "trainee" in row.attrib["category"]:
+                if "trainee" == row.attrib["category"]:
                     if row.attrib["name"] in groups:
                         return True
         return False
@@ -234,16 +234,16 @@ class ADEApi():
     def get_all_cours(self):
         result = []
         for event in self.events:
-            unite = self._get_unite(event)
+            unite = ADEApi._get_unite(event)
             if unite in self.unites:
                 group = self.groups[unite]
-                if self._has_cours(event, unite, group):
-                    name = self._get_name(event)
-                    instructors = self._get_instructor(event)
-                    unite = self._get_unite(event)
-                    classrooms = self._get_classroom(event)
-                    start = self._get_start_date(event)
-                    end = self._get_end_date(event)
+                if ADEApi._has_cours(event, unite, group):
+                    name = ADEApi._get_name(event)
+                    instructors = ADEApi._get_instructor(event)
+                    unite = ADEApi._get_unite(event)
+                    classrooms = ADEApi._get_classroom(event)
+                    start = ADEApi._get_start_date(event)
+                    end = ADEApi._get_end_date(event)
 
                     obj = {"name": name, "prof": ", ".join(instructors), "rooms": " ".join(classrooms),
                            "start": start, "end": end, "unite": search_unite_from_csv(unite),
@@ -252,25 +252,3 @@ class ADEApi():
                         result.append(obj)
 
         return result
-
-
-
-if __name__ == "__main__":
-    aurion = Aurion()
-    ade = ADEApi()
-
-    groups = aurion.get_unites_and_groups_from_csv("hueta")
-    ade.set_groups_unites(groups)
-
-    print(ade.groups)
-
-    #print(type(ade.groups_and_unites))
-    #print(type(ade.events[0]))
-    #print(ade.get_all_cours())
-
-    rslt = ""
-    rslt = ade.get_all_cours()
-
-    for line in rslt:
-        if "2018-02-02" in line["start"]:
-            print(line)
