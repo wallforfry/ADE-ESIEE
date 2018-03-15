@@ -264,7 +264,9 @@ def get_appreciations():
 
 
 def update_ade_ics_file():
+    print("Updating ADECal.ics")
     planif_parser.download_ics_from_planif()
+    print("ADECal is up to date")
 
 
 if __name__ == "__main__":
